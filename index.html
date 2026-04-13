@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Randin Ley</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: #1e1e2e;
+      --accent: #00f5c4;
+      --accent2: #7b61ff;
+      --text: #e2e2e8;
+      --muted: #6b6b80;
+      --mono: 'Share Tech Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+ 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    html { scroll-behavior: smooth; }
+ 
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+ 
+    /* grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,245,196,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,196,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+ 
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+ 
+    /* HEADER */
+    header {
+      padding: 5rem 0 3rem;
+      animation: fadeUp 0.8s ease both;
+    }
+ 
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+ 
+    h1 {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+ 
+    h1 span {
+      display: block;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+ 
+    .blurb {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+ 
+    .links-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+ 
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      padding: 0.55rem 1.2rem;
+      border-radius: 3px;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+ 
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+    }
+ 
+    .btn-primary:hover {
+      background: #fff;
+      transform: translateY(-2px);
+    }
+ 
+    .btn-secondary {
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: transparent;
+    }
+ 
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+ 
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 3rem 0;
+    }
+ 
+    /* SECTION */
+    section {
+      margin-bottom: 4rem;
+      animation: fadeUp 0.8s ease both;
+    }
+ 
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+ 
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+ 
+    /* PROJECTS */
+    .projects {
+      display: grid;
+      gap: 1rem;
+    }
+ 
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+ 
+    .project-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--accent), var(--accent2));
+      transform: scaleY(0);
+      transition: transform 0.25s;
+      transform-origin: top;
+    }
+ 
+    .project-card:hover {
+      border-color: rgba(0,245,196,0.3);
+      transform: translateX(4px);
+    }
+ 
+    .project-card:hover::before {
+      transform: scaleY(1);
+    }
+ 
+    .project-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+ 
+    .project-arrow {
+      color: var(--muted);
+      font-size: 0.9rem;
+      transition: color 0.2s, transform 0.2s;
+    }
+ 
+    .project-card:hover .project-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+ 
+    .project-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+ 
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+ 
+    .tag-pill {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 2px;
+      background: rgba(0,245,196,0.07);
+      color: var(--accent);
+      border: 1px solid rgba(0,245,196,0.15);
+      letter-spacing: 0.05em;
+    }
+ 
+    /* INTERESTS */
+    .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.75rem;
+    }
+ 
+    .interest-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1rem;
+      font-size: 0.875rem;
+      color: var(--muted);
+      font-family: var(--mono);
+      transition: border-color 0.2s, color 0.2s;
+    }
+ 
+    .interest-item:hover {
+      border-color: rgba(123,97,255,0.4);
+      color: var(--text);
+    }
+ 
+    .interest-item span {
+      display: block;
+      color: var(--accent2);
+      font-size: 1.2rem;
+      margin-bottom: 0.4rem;
+    }
+ 
+    /* FOOTER */
+    footer {
+      padding: 2rem 0 4rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-top: 1px solid var(--border);
+      animation: fadeUp 0.8s ease both;
+    }
+ 
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+ 
+    header { animation-delay: 0s; }
+    section:nth-of-type(1) { animation-delay: 0.15s; }
+    section:nth-of-type(2) { animation-delay: 0.25s; }
+    section:nth-of-type(3) { animation-delay: 0.35s; }
+    footer { animation-delay: 0.45s; }
+  </style>
+</head>
+<body>
+  <div class="container">
+ 
+    <header>
+      <p class="tag">// EE Undergrad · DSP · FPGA</p>
+      <h1>Randin<span>Ley.</span></h1>
+      <p class="blurb">
+        Interested in all things DSP and FPGA development. Primary work in embedded control systems and autonomous robotics — looking to apply that toward fault-tolerant aerospace systems.
+      </p>
+      <div class="links-row">
+        <a class="btn btn-primary" href="https://github.com/Randin-Ley" target="_blank">↗ GitHub</a>
+        <a class="btn btn-secondary" href="https://www.linkedin.com/in/randin-ley-14748046 " target="_blank">LinkedIn</a>
+        <a class="btn btn-secondary" href="mailto:randin.ley@outlook.com">Email</a>
+      </div>
+    </header>
+ 
+    <hr class="divider"/>
+ 
+    <section>
+      <p class="section-label">Projects</p>
+      <div class="projects">
+ 
+        <a class="project-card" href="https://github.com/Randin-Ley/SEED-Lab" target="_blank">
+          <div class="project-title">
+            Autonomous Controls Robot
+            <span class="project-arrow">→</span>
+          </div>
+          <p class="project-desc">
+            Cascade PI/P controller for a maze-navigating autonomous robot. Integrated with a computer vision team over I2C. Validated through distance traversal, angle rotation, and full maze completion.
+          </p>
+          <div class="tags">
+            <span class="tag-pill">Arduino</span>
+            <span class="tag-pill">C++</span>
+            <span class="tag-pill">PID Control</span>
+            <span class="tag-pill">I2C</span>
+            <span class="tag-pill">State Machine</span>
+          </div>
+        </a>
+ 
+        <a class="project-card" href="#" target="_blank">
+          <div class="project-title">
+            Digital Oscilloscope (FPGA)
+            <span class="project-arrow">→</span>
+          </div>
+          <p class="project-desc">
+            Built from the ground up on a Xilinx Zynq 7010 using VHDL. VGA signal generation with HDMI output conversion. In progress.
+          </p>
+          <div class="tags">
+            <span class="tag-pill">VHDL</span>
+            <span class="tag-pill">Vivado</span>
+            <span class="tag-pill">Zynq 7010</span>
+            <span class="tag-pill">DSP</span>
+          </div>
+        </a>
+ 
+        <a class="project-card" href="#" target="_blank">
+          <div class="project-title">
+            Solar Snow Drift Fence — Control & Monitoring
+            <span class="project-arrow">→</span>
+          </div>
+          <p class="project-desc">
+            Lead researcher on a field-deployed power monitoring system for a solar-powered snow drift fence. Built data acquisition pipeline and remote transmission infrastructure for off-grid operation.
+          </p>
+          <div class="tags">
+            <span class="tag-pill">Raspberry Pi</span>
+            <span class="tag-pill">Arduino</span>
+            <span class="tag-pill">Bash</span>
+            <span class="tag-pill">Embedded Systems</span>
+          </div>
+        </a>
+ 
+      </div>
+    </section>
+ 
+    <section>
+      <p class="section-label">Interests</p>
+      <div class="interests-grid">
+        <div class="interest-item"><span>⚡</span>FPGA Development</div>
+        <div class="interest-item"><span>📡</span>Digital Signal Processing</div>
+        <div class="interest-item"><span>🛰</span>Aerospace Systems</div>
+        <div class="interest-item"><span>🔒</span>Fault Tolerance</div>
+        <div class="interest-item"><span>🤖</span>Autonomous Controls</div>
+        <div class="interest-item"><span>👁</span>Computer Vision</div>
+      </div>
+    </section>
+ 
+    <footer>
+      <span>Randin Ley · EE Undergrad</span>
+      <span>randin-ley.github.io</span>
+    </footer>
+ 
+  </div>
+</body>
+</html>
