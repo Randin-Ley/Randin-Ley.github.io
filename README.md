@@ -6,4 +6,4 @@ EE undergrad interested in all things DSP and FPGA development.
 - more projects coming soon
 
 ## Contact
-- LinkedIn: your link
+- LinkedIn: (https://www.linkedin.com/in/randin-ley-14748046)
